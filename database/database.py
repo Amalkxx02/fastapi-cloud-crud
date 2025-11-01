@@ -1,13 +1,29 @@
-from motor.motor_asyncio import AsyncIOMotorClient
-from pydantic import BaseModel,EmailStr
+from pydantic import BaseModel
 from typing import Optional
-from pymongo import mongo_client
+from pymongo import AsyncMongoClient
+from dotenv import load_dotenv
+import os
 
-client = mongo_client("")
-db = client[""]
+load_dotenv()
 
-class UserAdd(BaseModel):
-    user_name:str
-    user_email: EmailStr
-    user_password:str
+DATABASE_URL = os.getenv("DB_URL")
+client = AsyncMongoClient(DATABASE_URL)
+
+db = client.get_database("Product_DB")
+Product_collection = db.get_collection("Product")
+
+class ProductMetadataUpdate(BaseModel):
+    url:Optional[str] = None
+    name:Optional[str] = None
+    size:Optional[str] = None
+    type:Optional[str] = None
+
+class Product(BaseModel):
+    name:str
+    type: str
+    stock:int
     
+class ProductUpdate(BaseModel):
+    name:Optional[str] = None
+    type: Optional[str] = None
+    stock:Optional[int] = None
