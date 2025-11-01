@@ -1,5 +1,5 @@
 app/__pycache__
-crude/__pycache__
+crud/__pycache__
 database/__pycache__
 utils/__pycache__
 .env
